@@ -53,8 +53,8 @@ get_SMRU_files <- function(dir = NULL,
   # Create directory for downloaded files
   dir_create(path = dir)
 
-  if(is.data.frame(.data$campaigns)){
-    camps = .data$campaigns
+  if(is.data.frame(campaigns)){
+    camps = campaigns
   }else{
     if(!is.null(providers)){
       camps = data.frame(campaign = .data$campaigns,
@@ -103,10 +103,10 @@ get_SMRU_files <- function(dir = NULL,
   # Based on campaigns information and associated login details, now download the compressed access files
 
   lapply(1:nrow(camps), function(ii){
-    x = .data$camps$campaign[ii]
-    prov = .data$camps$provider[ii]
-    un = .data$camps$user[ii]
-    pw = .data$camps$pwd[ii]
+    x = camps$campaign[ii]
+    prov = camps$provider[ii]
+    un = camps$user[ii]
+    pw = camps$pwd[ii]
     cat(paste("Downloading campaign: ", x, "\n"))
     tryCatch( # Catch any errors coming from file already having been downloaded, or errors with username/password
       GET(paste0("http://www.smru.st-andrews.ac.uk/protected/",x,"/db/",x,".zip"),
