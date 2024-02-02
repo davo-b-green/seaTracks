@@ -10,14 +10,14 @@
 ### Functions for combining diag files
 
 openDiag <- function(x){ # Function opens and formats a given campaign's location dataset
-  library(curl)
-  library(RODBC)
-  library(tidyverse)
-  library(fs)
-  library(rSRDL)
-  # library(here) # sets root directory
-  library(future.apply)
-  library(data.table)
+  # library(curl)
+  # library(RODBC)
+  # library(tidyverse)
+  # library(fs)
+  # library(rSRDL)
+  # # library(here) # sets root directory
+  # library(future.apply)
+  # library(data.table)
   fl_split = str_split(x, pattern = "/")[[1]]
   theDB = fl_split[length(fl_split)] %>%
     str_remove(pattern = ".mdb")
@@ -164,7 +164,7 @@ openCTD <- function(x){
 
   if(is.null(data)){
     # odbcClose(con) # close ACCESS db connection
-    return(data.frame(REF = str_split(x, "/")[[1]][length(str_split(x, "/")[[1]])]))
+    return(data.frame(ref = str_split(x, "/")[[1]][length(str_split(x, "/")[[1]])])) # testing change REF to ref
   }else{
     data = data %>%
       mutate(
