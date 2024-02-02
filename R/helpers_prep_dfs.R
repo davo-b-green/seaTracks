@@ -29,7 +29,7 @@ prep_diag <- function(in_loc,
                       out_loc,
                       dep_date,
                       append,
-                      min.d,
+                      min_d,
                       ref_sub
 ){
 
@@ -93,8 +93,8 @@ prep_diag <- function(in_loc,
   )
   ############################################################
 
-  if(!is.null(min.d)){
-    ## only keep seals with "min.d" days of data
+  if(!is.null(min_d)){
+    ## only keep seals with "min_d" days of data
     dur <- rr1 %>%
       group_by(.data$id) %>%
       summarise(first=min(.data$date, na.rm = TRUE),
@@ -102,7 +102,7 @@ prep_diag <- function(in_loc,
       ) %>%
       mutate(dur = difftime(.data$last, .data$first, units = "days")
       ) %>%
-      filter(.data$dur > min.d) %>%
+      filter(.data$dur > min_d) %>%
       pull(.data$id)
   }else{dur = NULL}
 
@@ -111,7 +111,7 @@ prep_diag <- function(in_loc,
     select(.data$id) %>%
     distinct() %>%
     filter(!(.data$id %in% dur)) %>%
-    mutate(reason = paste0("< ", min.d, " days data following deployment"))
+    mutate(reason = paste0("< ", min_d, " days data following deployment"))
 
   remDat <- bind_rows(remDat1, remDat) %>% distinct()
 

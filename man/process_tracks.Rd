@@ -17,7 +17,7 @@ process_tracks(
   note_discards = TRUE,
   add_mpm = TRUE,
   mpm_model = "mpm",
-  min.d = 5,
+  min_d = 5,
   tstep = 6,
   tstep_units = "hours",
   vmax = 4,
@@ -52,7 +52,7 @@ process_tracks(
 
 \item{mpm_model}{specify the move persistence model to use. Can be either c("mpm" or "jmpm"). See \link[aniMotum]{fit_mpm} for details}
 
-\item{min.d}{minimum number of days of tracking data for a deployment to be processed}
+\item{min_d}{minimum number of days of tracking data for a deployment to be processed}
 
 \item{tstep}{specify the duration of the regular timestep to be fitted during the ssm}
 

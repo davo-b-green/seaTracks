@@ -39,7 +39,7 @@
 #' @param note_discards logical - would you like a running tally of ids that have been discarded over the course of processing?
 #' @param add_mpm logical - should a move persistence model be fitted in addition to the ssm?
 #' @param mpm_model specify the move persistence model to use. Can be either c("mpm" or "jmpm"). See \link[aniMotum]{fit_mpm} for details
-#' @param min.d minimum number of days of tracking data for a deployment to be processed
+#' @param min_d minimum number of days of tracking data for a deployment to be processed
 #' @param tstep specify the duration of the regular timestep to be fitted during the ssm
 #' @param tstep_units specifiy the timestep units; it can be one of following c("hour", "hours", "min", "mins", "sec", "secs")
 #' @param vmax the maximum speed in m/s that an individual can travel. This is used for the ssm speed filter.
@@ -64,7 +64,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
                            note_discards = TRUE, # would you like a running tally of ids that have been discarded over the course of processing?
                            add_mpm = TRUE, # should a move persistence model be fitted in addition to the ssm?
                            mpm_model = "mpm", # either c("mpm" or "jmpm") see aniMotum::fit_mpm for details
-                           min.d = 5, # minimum number of days for a deployment to be processed
+                           min_d = 5, # minimum number of days for a deployment to be processed
                            tstep = 6, # regular timestep for ssm to be fitted to (units = hours)
                            tstep_units = "hours", # can be one of following c("hour", "hours", "min", "mins", "sec", "secs")
                            vmax = 4, # m/s
@@ -97,7 +97,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
     print(paste0("preparing data from chunk: [", ii,"] of [", n_chunk, "]"))
 
-    diag <- prep_diag(in_loc, out_dir, out_loc, dep_date, append, min.d, ref_sub)
+    diag <- prep_diag(in_loc, out_dir, out_loc, dep_date, append, min_d, ref_sub)
 
     d1 <- diag[[1]]
 
