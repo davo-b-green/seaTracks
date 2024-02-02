@@ -1,0 +1,31 @@
+Package: seaTracks
+Title: Dowloading, compiling and processing satellite biotelemetry data from the Sea Mammal Research Unit (SMRU) Data Portal
+Version: 0.0.0.9000
+Authors@R: 
+    person("David", "Green", , "davo.b.green@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0346-3129"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: 
+    aniMotum,
+    base,
+    data.table,
+    dplyr,
+    fs,
+    future,
+    future.apply,
+    httr,
+    lubridate,
+    magrittr,
+    readr,
+    renv,
+    RODBC,
+    rSRDL,
+    stats,
+    stringr,
+    tidyselect,
+    utils

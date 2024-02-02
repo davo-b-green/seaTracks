@@ -1,0 +1,4 @@
+^renv$
+^renv\.lock$
+^seaTracks\.Rproj$
+^\.Rproj\.user$
