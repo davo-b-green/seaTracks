@@ -27,20 +27,20 @@
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' compile_diag()
-#'
+#'}
 compile_diag <- function(acc_path  = "./access_files",
                          dir = "./compiled_raw_datasets",
                          comp_file = "loc_all_raw_pre-qc",
                          parallel = FALSE){
-  require(curl)
-  require(RODBC)
-  require(tidyverse)
-  require(fs)
-  require(rSRDL)
-  require(future.apply)
-  require(data.table)
+  # require(curl)
+  # require(RODBC)
+  # require(tidyverse)
+  # require(fs)
+  # require(rSRDL)
+  # require(future.apply)
+  # require(data.table)
   dir_create(path = dir) # Create directory for the compiled loc, dive, ctd and haulout datasets
 
   comp_file <- paste0("/",comp_file,".txt")
@@ -120,20 +120,20 @@ compile_diag <- function(acc_path  = "./access_files",
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' compile_dive()
-#'
+#'}
 compile_dive <- function(acc_path  = "./access_files",
                          dir = "./compiled_raw_datasets",
                          comp_file = "dive_all_raw_pre-qc",
                          parallel = FALSE){
-  require(curl)
-  require(RODBC)
-  require(tidyverse)
-  require(fs)
-  require(rSRDL)
-  require(future.apply)
-  require(data.table)
+  # require(curl)
+  # require(RODBC)
+  # require(tidyverse)
+  # require(fs)
+  # require(rSRDL)
+  # require(future.apply)
+  # require(data.table)
   dir_create(path = dir) # Create directory for the compiled loc, dive, ctd and haulout datasets
 
   comp_file <- paste0("/",comp_file,".txt")
@@ -202,20 +202,20 @@ compile_dive <- function(acc_path  = "./access_files",
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' compile_ctd()
-#'
+#'}
 compile_ctd <- function(acc_path  = "./access_files",
                         dir = "./compiled_raw_datasets",
                         comp_file = "ctd_all_raw_pre-qc",
                         parallel = FALSE){
-  require(curl)
-  require(RODBC)
-  require(tidyverse)
-  require(fs)
-  require(rSRDL)
-  require(future.apply)
-  require(data.table)
+  # require(curl)
+  # require(RODBC)
+  # require(tidyverse)
+  # require(fs)
+  # require(rSRDL)
+  # require(future.apply)
+  # require(data.table)
 
   dir_create(path = dir) # Create directory for the compiled loc, dive, ctd and haulout datasets
 
@@ -280,22 +280,22 @@ compile_ctd <- function(acc_path  = "./access_files",
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' compile_haul()
-#'
+#'}
 ## Create haulout dataset
 
 compile_haul <- function(acc_path  = "./access_files",
                          dir = "./compiled_raw_datasets",
                          comp_file = "haulout_all_raw_pre-qc",
                          parallel = FALSE){
-  require(curl)
-  require(RODBC)
-  require(tidyverse)
-  require(fs)
-  require(rSRDL)
-  require(future.apply)
-  require(data.table)
+  # require(curl)
+  # require(RODBC)
+  # require(tidyverse)
+  # require(fs)
+  # require(rSRDL)
+  # require(future.apply)
+  # require(data.table)
   dir_create(path = dir) # Create directory for the compiled loc, dive, ctd and haulout datasets
 
   comp_file <- paste0("/",comp_file,".txt")
@@ -361,20 +361,20 @@ compile_haul <- function(acc_path  = "./access_files",
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' compile_sum()
-#'
+#'}
 compile_sum <- function(acc_path  = "./access_files",
                         dir = "./compiled_raw_datasets",
                         comp_file = "summary_all_raw_pre-qc",
                         parallel = FALSE){
-  require(curl)
-  require(RODBC)
-  require(tidyverse)
-  require(fs)
-  require(rSRDL)
-  require(future.apply)
-  require(data.table)
+  # require(curl)
+  # require(RODBC)
+  # require(tidyverse)
+  # require(fs)
+  # require(rSRDL)
+  # require(future.apply)
+  # require(data.table)
   dir_create(path = dir) # Create directory for the compiled loc, dive, ctd and haulout datasets
 
   comp_file <- paste0("/",comp_file,".txt")
