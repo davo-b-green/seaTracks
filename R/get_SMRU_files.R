@@ -3,10 +3,10 @@
 # Author: David Green
 # Date: 08/12/2023
 
-library(tidyverse)
-library(httr)
-library(fs)
-library(data.table)
+# library(tidyverse)
+# library(httr)
+# library(fs)
+# library(data.table)
 
 #` Download SRDL files from the SMRU Data Portal
 #`
@@ -53,11 +53,11 @@ get_SMRU_files <- function(dir = NULL,
   # Create directory for downloaded files
   dir_create(path = dir)
 
-  if(is.data.frame(campaigns)){
-    camps = campaigns
+  if(is.data.frame(.data$campaigns)){
+    camps = .data$campaigns
   }else{
     if(!is.null(providers)){
-      camps = data.frame(campaign = campaigns,
+      camps = data.frame(campaign = .data$campaigns,
                          provider = providers)
     }else{stop("cannot download campaign/s without provider details")}
   }
@@ -85,7 +85,7 @@ get_SMRU_files <- function(dir = NULL,
   if(replace){
     if(file_exists(compiled_fpath)){
       camp_comp <- fread(compiled_fpath) %>%
-        pull(campaign) %>%
+        pull(.data$campaign) %>%
         unique()
     }else{
       camp_comp <- NULL
@@ -98,15 +98,15 @@ get_SMRU_files <- function(dir = NULL,
   # Get only undownloaded campaigns
   `%nin%` <- Negate(`%in%`)
   camps <- filter(camps,
-                  campaign %nin% camp_comp)
+                  .data$campaign %nin% camp_comp)
 
   # Based on campaigns information and associated login details, now download the compressed access files
 
   lapply(1:nrow(camps), function(ii){
-    x = camps$campaign[ii]
-    prov = camps$provider[ii]
-    un = camps$user[ii]
-    pw = camps$pwd[ii]
+    x = .data$camps$campaign[ii]
+    prov = .data$camps$provider[ii]
+    un = .data$camps$user[ii]
+    pw = .data$camps$pwd[ii]
     cat(paste("Downloading campaign: ", x, "\n"))
     tryCatch( # Catch any errors coming from file already having been downloaded, or errors with username/password
       GET(paste0("http://www.smru.st-andrews.ac.uk/protected/",x,"/db/",x,".zip"),

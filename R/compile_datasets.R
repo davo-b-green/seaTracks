@@ -23,7 +23,7 @@
 #' @param comp_file prefix for writing the combined locations data.frame to a CSV. Default is "loc_all_raw_pre-qc"
 #' @param parallel logical - should the data be processed in parallel?
 #'
-#' @return CSV of the location dataset combined for all available campaigns
+#' @return CSV of the combined location dataset for all available campaigns
 #' @export
 #'
 #' @examples
@@ -55,7 +55,7 @@ compile_diag <- function(acc_path  = "./access_files",
   ## Check for already processed campaigns
   if(file_exists(paste0(dir,comp_file))){
     camp_comp <- fread(paste0(dir,comp_file)) %>%
-      pull(campaign) %>%
+      pull(.data$campaign) %>%
       unique()
     p <- str_split(fl[1], "/")[[1]]
     p <- paste0(p[1:length(p)-1], collapse = "/")
@@ -116,7 +116,7 @@ compile_diag <- function(acc_path  = "./access_files",
 #' @param comp_file prefix for writing the combined dive data.frame to a CSV. Default is "dive_all_raw_pre-qc"
 #' @param parallel logical - should the data be processed in parallel?
 #'
-#' @return CSV of the location dataset combined for all available campaigns
+#' @return CSV of the combined dive dataset for all available campaigns
 #' @export
 #'
 #' @examples
@@ -144,7 +144,7 @@ compile_dive <- function(acc_path  = "./access_files",
   ## Check for already processed campaigns
   if(file_exists(paste0(dir,comp_file))){
     camp_comp <- fread(paste0(dir,comp_file)) %>%
-      pull(campaign) %>%
+      pull(.data$campaign) %>%
       unique()
     p <- str_split(fl[1], "/")[[1]]
     p <- paste0(p[1:length(p)-1], collapse = "/")
@@ -198,7 +198,7 @@ compile_dive <- function(acc_path  = "./access_files",
 #' @param comp_file prefix for writing the combined ctd data.frame to a CSV. Default is "ctd_all_raw_pre-qc"
 #' @param parallel logical - should the data be processed in parallel?
 #'
-#' @return CSV of the location dataset combined for all available campaigns
+#' @return CSV of the combined ctd dataset for all available campaigns
 #' @export
 #'
 #' @examples
@@ -227,7 +227,7 @@ compile_ctd <- function(acc_path  = "./access_files",
   ## Check for already processed campaigns
   if(file_exists(paste0(dir,comp_file))){
     camp_comp <- fread(paste0(dir,comp_file)) %>%
-      pull(campaign) %>%
+      pull(.data$campaign) %>%
       unique()
     p <- str_split(fl[1], "/")[[1]]
     p <- paste0(p[1:length(p)-1], collapse = "/")
@@ -276,7 +276,7 @@ compile_ctd <- function(acc_path  = "./access_files",
 #' @param comp_file prefix for writing the combined haulout data.frame to a CSV. Default is "haul_all_raw_pre-qc"
 #' @param parallel logical - should the data be processed in parallel?
 #'
-#' @return CSV of the location dataset combined for all available campaigns
+#' @return CSV of the combined haulout dataset for all available campaigns
 #' @export
 #'
 #' @examples
@@ -305,7 +305,7 @@ compile_haul <- function(acc_path  = "./access_files",
   ## Check for already processed campaigns
   if(file_exists(paste0(dir, comp_file))){
     camp_comp <- fread(paste0(dir, comp_file)) %>%
-      pull(campaign) %>%
+      pull(.data$campaign) %>%
       unique()
     p <- str_split(fl[1], "/")[[1]]
     p <- paste0(p[1:length(p)-1], collapse = "/")
@@ -357,7 +357,7 @@ compile_haul <- function(acc_path  = "./access_files",
 #' @param comp_file prefix for writing the combined summary data.frame to a CSV. Default is "sum_all_raw_pre-qc"
 #' @param parallel logical - should the data be processed in parallel?
 #'
-#' @return CSV of the location dataset combined for all available campaigns
+#' @return CSV of the combined summary dataset for all available campaigns
 #' @export
 #'
 #' @examples
@@ -385,7 +385,7 @@ compile_sum <- function(acc_path  = "./access_files",
   ## Check for already processed campaigns
   if(file_exists(paste0(dir, comp_file))){
     camp_comp <- fread(paste0(dir, comp_file)) %>%
-      pull(campaign) %>%
+      pull(.data$campaign) %>%
       unique()
     p <- str_split(fl[1], "/")[[1]]
     p <- paste0(p[1:length(p)-1], collapse = "/")

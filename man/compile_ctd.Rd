@@ -21,13 +21,13 @@ compile_ctd(
 \item{parallel}{logical - should the data be processed in parallel?}
 }
 \value{
-CSV of the location dataset combined for all available campaigns
+CSV of the combined ctd dataset for all available campaigns
 }
 \description{
 Binding individual ctd datasets
 }
 \examples{
-
+\dontrun{
 compile_ctd()
-
+}
 }

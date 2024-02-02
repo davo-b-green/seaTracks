@@ -21,13 +21,13 @@ compile_haul(
 \item{parallel}{logical - should the data be processed in parallel?}
 }
 \value{
-CSV of the location dataset combined for all available campaigns
+CSV of the combined haulout dataset for all available campaigns
 }
 \description{
 Binding individual haulout datasets
 }
 \examples{
-
+\dontrun{
 compile_haul()
-
+}
 }

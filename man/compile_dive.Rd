@@ -21,13 +21,13 @@ compile_dive(
 \item{parallel}{logical - should the data be processed in parallel?}
 }
 \value{
-CSV of the location dataset combined for all available campaigns
+CSV of the combined dive dataset for all available campaigns
 }
 \description{
 Binding individual dive datasets
 }
 \examples{
-
+\dontrun{
 compile_dive()
-
+}
 }

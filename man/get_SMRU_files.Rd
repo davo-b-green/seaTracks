@@ -36,10 +36,10 @@ collection of zipped or unzipped Microsoft Access files in the specified directo
 Download SRDL files from the SMRU Data Portal
 }
 \examples{
-
+\dontrun{
 campaigns <- c("ct164", "ct79", "ct91")
 providers <- c("imos", "imos", "imos")
 
 get_SMRU_files(campaigns = campaigns, providers = providers)
-
+}
 }

@@ -2,3 +2,4 @@
 ^renv\.lock$
 ^seaTracks\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$

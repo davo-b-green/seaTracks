@@ -21,13 +21,13 @@ compile_diag(
 \item{parallel}{logical - should the data be processed in parallel?}
 }
 \value{
-CSV of the location dataset combined for all available campaigns
+CSV of the combined location dataset for all available campaigns
 }
 \description{
 Binding individual location (diag) datasets
 }
 \examples{
-
+\dontrun{
 compile_diag()
-
+}
 }

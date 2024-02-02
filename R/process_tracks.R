@@ -25,6 +25,33 @@
 # source("./called_functions/preparing_datasets_for_ssm.R")
 ## Function call
 
+#' Running compiled datasets through aniMotum's ssm
+#'
+#' @param in_loc file path for the compiled location dataset.
+#' @param out_dir destination directory for outputs.
+#' @param out_loc prefix for the output location file name.
+#' @param in_dive file path for the compiled dive dataset.
+#' @param out_dive prefix for the output dive file name.
+#' @param in_ctd file path for the compiled ctd dataset.
+#' @param out_ctd prefix for the output ctd file name.
+#' @param dep_date Must be a 2-column data.frame with animal id and deployment date
+#' @param append logical - would you like the dataset to be appended to a previously processed dataset, or processed from scratch?
+#' @param note_discards logical - would you like a running tally of ids that have been discarded over the course of processing?
+#' @param add_mpm logical - should a move persistence model be fitted in addition to the ssm?
+#' @param mpm_model specify the move persistence model to use. Can be either c("mpm" or "jmpm"). See \link[aniMotum]{fit_mpm} for details
+#' @param min.d minimum number of days of tracking data for a deployment to be processed
+#' @param tstep specify the duration of the regular timestep to be fitted during the ssm
+#' @param tstep_units specifiy the timestep units; it can be one of following c("hour", "hours", "min", "mins", "sec", "secs")
+#' @param vmax the maximum speed in m/s that an individual can travel. This is used for the ssm speed filter.
+#' @param max_tgap what is the maximum gap (in days) between location times before it should be flagged?
+#' @param parallel logical - would you like processing to be run in parallel?
+#' @param chunk_prop relative size of data chunks for splitting the dataset during processing. Value must be (0,1]
+#' @param return_output logical - would you like the output to be returned? If FALSE, output will be written to disk only.
+#'
+#' @return a collection of csv and Rdata files with the ssm estimated locations (and move persistence values) for tracks at a regularised time interval, as well as for every dive and ctd profile. Also, a file noting, with reasons, all tracks that were removed during processing. If return_output = TRUE, a list of data.frames containing processed location, dive and ctd datasets will be returned
+#' @export
+#'
+#' @examples
 process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.txt",
                            out_dir = "./processed_datasets/",
                            out_loc = "loc_ssm_6h",
