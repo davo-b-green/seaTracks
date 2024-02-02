@@ -32,12 +32,12 @@ library(data.table)
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' campaigns <- c("ct164", "ct79", "ct91")
 #' providers <- c("imos", "imos", "imos")
 #'
 #' get_SMRU_files(campaigns = campaigns, providers = providers)
-#'
+#'}
 get_SMRU_files <- function(dir = NULL,
                            campaigns,
                            providers = NULL,
