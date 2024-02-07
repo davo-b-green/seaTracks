@@ -85,7 +85,7 @@ get_SMRU_files <- function(dir = NULL,
   if(replace){
     if(file_exists(compiled_fpath)){
       camp_comp <- fread(compiled_fpath) %>%
-        pull(campaign) %>%
+        pull(.data$campaign) %>%
         unique()
     }else{
       camp_comp <- NULL
@@ -98,7 +98,7 @@ get_SMRU_files <- function(dir = NULL,
   # Get only undownloaded campaigns
   `%nin%` <- Negate(`%in%`)
   camps <- filter(camps,
-                  campaign %nin% camp_comp)
+                  .data$campaign %nin% camp_comp)
 
   # Based on campaigns information and associated login details, now download the compressed access files
 
