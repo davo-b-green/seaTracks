@@ -138,7 +138,7 @@ compile_dive <- function(acc_path  = "./access_files",
 
   comp_file <- paste0("/",comp_file,".txt")
   ## Get list of all ACCESS files
-  fl <- dir_ls(path = dir,
+  fl <- dir_ls(path = acc_path,
                glob = "*.mdb")
 
   ## Check for already processed campaigns
@@ -221,7 +221,7 @@ compile_ctd <- function(acc_path  = "./access_files",
 
   comp_file <- paste0("/",comp_file,".txt")
   ## Get list of all ACCESS files
-  fl <- dir_ls(path = dir,
+  fl <- dir_ls(path = acc_path,
                glob = "*.mdb")
 
   ## Check for already processed campaigns
@@ -300,7 +300,7 @@ compile_haul <- function(acc_path  = "./access_files",
 
   comp_file <- paste0("/",comp_file,".txt")
   ## Get list of all ACCESS files
-  fl <- dir_ls(path = dir,
+  fl <- dir_ls(path = acc_path,
                glob = "*.mdb")
   ## Check for already processed campaigns
   if(file_exists(paste0(dir, comp_file))){
@@ -379,7 +379,7 @@ compile_sum <- function(acc_path  = "./access_files",
 
   comp_file <- paste0("/",comp_file,".txt")
   ## Get list of all ACCESS files
-  fl <- dir_ls(path = dir,
+  fl <- dir_ls(path = acc_path,
                glob = "*.mdb")
 
   ## Check for already processed campaigns
