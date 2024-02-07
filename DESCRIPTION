@@ -29,3 +29,5 @@ Imports:
     tidyr,
     tidyselect,
     utils
+Suggests: 
+    sf (>= 1.0.15)
