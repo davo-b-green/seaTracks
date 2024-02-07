@@ -77,7 +77,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
                            tstep_units = "hours", # can be one of following c("hour", "hours", "min", "mins", "sec", "secs")
                            vmax = 4, # m/s
                            max_tgap = 4, # flags a timestep gap >= "max_tgap" in data (units  = days)
-                           parallel = TRUE, # should this run in parallel?
+                           parallel = FALSE, # should this run in parallel?
                            chunk_prop = 0.1, # chunk size relative to the full datablock
                            return_output = FALSE
 ){
@@ -163,12 +163,14 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         ) %>%
         select(id, date) %>%
         separate_rows(date, sep = ",") %>%
-        mutate(date = as.POSIXct(date, tz = "UTC"))
+        mutate(date = as.POSIXct(date, tz = "UTC")) %>%
+        drop_na()
 
 
     }else{
       diag_tstep <- d1 %>%
-        select(id, date)}
+        select(id, date) %>%
+        drop_na()}
 
     pred_times <- diag_tstep
 
@@ -186,7 +188,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       group_by(id) %>%
       mutate(date = as.POSIXct(date, tz = "UTC")) %>%
       arrange(date, .by_group = TRUE) %>%
-      distinct
+      distinct %>%
+      drop_na()
 
     ## Step 2. Fit the SSM (and mpm if selected)
     d3 <- data.frame(d1)
@@ -212,8 +215,12 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         )
 
         fit_dat <- grab(fits, "predicted", as_sf=FALSE)
-        if(add_mpm){
-          fits <- fit_mpm(fits, what = "predicted", model = mpm_model)
+        if(add_mpm){ # only adds move persistence model for regular timestep and not for individual dives and ctd profiles
+          sub_mpm <- fit_dat %>%
+            right_join(diag_tstep) %>%
+            drop_na(date)
+          # fits <- fit_mpm(fits, what = "predicted", model = mpm_model)
+          fits <- fit_mpm(sub_mpm, what = "predicted", model = mpm_model)
           mpm_dat <- grab(fits, "fitted", as_sf=FALSE)
           if(nrow(mpm_dat) > 0){
             suppressMessages(
@@ -232,7 +239,11 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
       fit_dat <- grab(fits, "predicted", as_sf=FALSE)
       if(add_mpm){
-        fits <- fit_mpm(fits, what = "predicted", model = mpm_model)
+        sub_mpm <- fit_dat %>%
+          right_join(diag_tstep) %>%
+          drop_na(date)
+        # fits <- fit_mpm(fits, what = "predicted", model = mpm_model)
+        fits <- fit_mpm(sub_mpm, what = "predicted", model = mpm_model)
         mpm_dat <- grab(fits, "fitted", as_sf=FALSE)
         suppressMessages(
           fit_dat <- left_join(fit_dat, mpm_dat)
@@ -289,13 +300,19 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
     # Dive
     if(!is.null(in_dive)){
-      assign("fit_all_dive", suppressMessages(semi_join(fit_all, dive %>% select(id, date))))
+      assign("fit_all_dive", suppressMessages(semi_join(fit_all, dive %>% select(id, date)
+                                                        ) %>%
+                                                select(-c(logit_g, logit_g.se, g))
+                                              ))
       assign("fit_new_dive", fit_all_dive)
     }
 
     # CTD
     if(!is.null(in_ctd)){
-      assign("fit_all_ctd", suppressMessages(semi_join(fit_all, ctd %>% select(id, date))))
+      assign("fit_all_ctd", suppressMessages(semi_join(fit_all, ctd %>% select(id, date)
+                                                       ) %>%
+                                               select(-c(logit_g, logit_g.se, g))
+                                             ))
       assign("fit_new_ctd", fit_all_ctd)
     }
 
