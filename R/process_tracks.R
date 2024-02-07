@@ -52,6 +52,14 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' process_tracks(tstep = 4, parallel = FALSE)
+#'
+#' # If output should be returned to global environment
+#'
+#' track_dat <- process_tracks(tstep = 4, parallel = FALSE, return_output = TRUE)
+#'
+#'}
 process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.txt",
                            out_dir = "./processed_datasets/",
                            out_loc = "loc_ssm_6h",
