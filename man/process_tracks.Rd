@@ -74,3 +74,13 @@ a collection of csv and Rdata files with the ssm estimated locations (and move p
 \description{
 Running compiled datasets through aniMotum's ssm
 }
+\examples{
+\dontrun{
+process_tracks(tstep = 4, parallel = FALSE)
+
+# If output should be returned to global environment
+
+track_dat <- process_tracks(tstep = 4, parallel = FALSE, return_output = TRUE)
+
+}
+}
