@@ -13,7 +13,7 @@ One of the main advantages of seaTracks is that it makes file and dataset manage
 Data preparation and processing relies heavily on the packages:
 
 - [rSRDL](https://github.com/embiuw/rSRDL/tree/master) for accessing and qc'ing the raw diag, dive, ctd, haulout and summary tables from the available Microsoft Access files
-- [aniMotum](https://github.com/ianjonsen/aniMotum) for fitting state-space models and move persistence models on the compiled datasets
+- [aniMotum](https://github.com/ianjonsen/aniMotum) for fitting state-space models and move persistence models to the compiled datasets
 
 Before continuing with the workflow presented here, I strongly encourage that you read the descriptions of these packages to understand how they process the data. Please also appropriately cite these packages in any work produced.
 
