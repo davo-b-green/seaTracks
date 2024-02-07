@@ -88,7 +88,7 @@ prep_diag <- function(in_loc,
         select(.data$id) %>%
         distinct() %>%
         filter(!(.data$id %in% unique(rr1$id))) %>%
-        mutate(reason = "Removed because there are no data after the deployment date (i.e. all transmitted data is from prior to deployment)")
+        mutate(reason = "Removed because there are no data after the deployment date (i.e. all transmitted data are from prior to deployment)")
     }
   )
   ############################################################
@@ -113,7 +113,9 @@ prep_diag <- function(in_loc,
     filter(!(.data$id %in% dur)) %>%
     mutate(reason = paste0("< ", min_d, " days data following deployment"))
 
-  remDat <- bind_rows(remDat1, remDat) %>% distinct()
+  if(exists("remDat1")){
+    remDat <- bind_rows(remDat1, remDat) %>% distinct()
+  }
 
   d1 <- rr1 %>%
     filter(.data$id %in% dur) %>%
