@@ -140,7 +140,7 @@ get_SMRU_files <- function(dir = NULL,
     lapply(flz, function(x){
       unzip(zipfile = x,
             exdir = unpack_path,
-            overwrite = FALSE)
+            overwrite = replace)
     })
 
   }
