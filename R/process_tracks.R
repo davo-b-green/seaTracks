@@ -300,7 +300,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
     # Dive
     if(!is.null(in_dive)){
-      assign("fit_all_dive", suppressMessages(semi_join(fit_all, dive %>% select(id, date)
+      assign("fit_all_dive", suppressMessages(semi_join(fit_all, dive #%>% select(id, date)
                                                         ) %>%
                                                 select(-c(logit_g, logit_g.se, g))
                                               ))
@@ -309,7 +309,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
     # CTD
     if(!is.null(in_ctd)){
-      assign("fit_all_ctd", suppressMessages(semi_join(fit_all, ctd %>% select(id, date)
+      assign("fit_all_ctd", suppressMessages(semi_join(fit_all, ctd #%>% select(id, date)
                                                        ) %>%
                                                select(-c(logit_g, logit_g.se, g))
                                              ))
