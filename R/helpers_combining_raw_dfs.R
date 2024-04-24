@@ -339,32 +339,69 @@ combSum <- function(x, parallel){ # Function feeds in a list of campaign access 
 ####
 
 # Function to bind data.frames when matching columns are of different classes
-bind_df_diffClass <- function(df1, df2){
-  col_classesdf1 <- lapply(df1, class)
-  col_classesdf2 <- lapply(df2, class)
-  # overlap <- names(df1)[names(df1) %in% names(df2)]
-  # col_classesdf1 <- col_classesdf1[overlap]
-  # col_classesdf2 <- col_classesdf2[overlap]
-  # classMismatch <- col_classesdf1[!which(col_classesdf1 %in% col_classesdf2)]
-  # matchNames <- names(col_classesdf1)[names(col_classesdf1) %in% names(col_classesdf2)]
-  matchNames <- intersect(names(col_classesdf1), names(col_classesdf2))
-  classMismatch <- unlist(lapply(matchNames, function(x){
-    df1_class <- col_classesdf1[[which(names(col_classesdf1) == x)]]
-    df2_class <- col_classesdf2[[which(names(col_classesdf2) == x)]]
-    return(any(df1_class != df2_class))
-  }))
-  classMismatch <- matchNames[classMismatch] %>% na.omit
+# bind_df_diffClass <- function(df1, df2){
+#   col_classesdf1 <- lapply(df1, class)
+#   col_classesdf2 <- lapply(df2, class)
+#   # overlap <- names(df1)[names(df1) %in% names(df2)]
+#   # col_classesdf1 <- col_classesdf1[overlap]
+#   # col_classesdf2 <- col_classesdf2[overlap]
+#   # classMismatch <- col_classesdf1[!which(col_classesdf1 %in% col_classesdf2)]
+#   # matchNames <- names(col_classesdf1)[names(col_classesdf1) %in% names(col_classesdf2)]
+#   matchNames <- intersect(names(col_classesdf1), names(col_classesdf2))
+#   classMismatch <- unlist(lapply(matchNames, function(x){
+#     df1_class <- col_classesdf1[[which(names(col_classesdf1) == x)]]
+#     df2_class <- col_classesdf2[[which(names(col_classesdf2) == x)]]
+#     return(any(df1_class != df2_class))
+#   }))
+#   classMismatch <- matchNames[classMismatch] %>% na.omit
+#
+#   # lapply(classMismatch, function(x) {
+#   for(x in classMismatch){
+#     # df2_col <- df2[[x]]
+#     # setClass(df2_col, class(df1[[x]]))
+#     # print(x)
+#     # eval(parse(text = paste(fname, "(x)")))
+#     # df2[[x]] <- eval(parse(text = paste("as.", as.character(class(df1[[x]])),"(df1[[x]])", sep = "")))
+#     eval(parse(text = paste("df2$",x," <- as.", as.character(class(df1[[x]]))[1],"(df2[[x]])", sep = "")))
+#   }#)
+#
+#   # df_merged <- rbindlist(list(df1, df2), fill = TRUE)
+#   df_merged <- rbindlist(list(df1, df2), fill = T)
+# }
 
-  # lapply(classMismatch, function(x) {
-  for(x in classMismatch){
-    # df2_col <- df2[[x]]
-    # setClass(df2_col, class(df1[[x]]))
-    # print(x)
-    # eval(parse(text = paste(fname, "(x)")))
-    # df2[[x]] <- eval(parse(text = paste("as.", as.character(class(df1[[x]])),"(df1[[x]])", sep = "")))
-    eval(parse(text = paste("df2$",x," <- as.", as.character(class(df1[[x]]))[1],"(df2[[x]])", sep = "")))
-  }#)
+# Function to bind data.frames when matching columns are of different classes
+bind_df_diffClass <- function(dt_list){
+  # Step 1: Determine the most common class for each column
+  get_common_class <- function(dts, col) {
+    classes <- unlist(lapply(dts, function(x) class(x[[col]])))
+    most_common <- names(sort(table(classes), decreasing = TRUE))[1]
+    return(most_common)
+  }
 
-  # df_merged <- rbindlist(list(df1, df2), fill = TRUE)
-  df_merged <- rbindlist(list(df1, df2), fill = T)
+  # Assuming all data tables have the same number of columns
+  column_names <- names(dt_list[[1]])
+  common_classes <- sapply(column_names, function(col) get_common_class(dt_list, col))
+
+  # Step 2: Convert columns to the most common class
+  convert_columns <- function(dt, common_classes) {
+    for (col in names(common_classes)) {
+      class_type <- common_classes[col]
+      dt[[col]] <- switch(class_type,
+                          "numeric" = as.numeric(dt[[col]]),
+                          "character" = as.character(dt[[col]]),
+                          "integer" = as.integer(dt[[col]]),
+                          "factor" = as.factor(dt[[col]]),
+                          "logical" = as.logical(dt[[col]]),
+                          "Date" = as.Date(dt[[col]], tz = "UTC"),
+                          "POSIXct" = as.POSIXct(dt[[col]], tz = "UTC"),
+                          dt[[col]])  # default to not converting if class type not handled
+    }
+    return(dt)
+  }
+
+  dt_list <- lapply(dt_list, convert_columns, common_classes)
+
+  # Step 3: Bind the data tables together
+  combined_dt <- rbindlist(dt_list, fill = TRUE)
+  return(combined_dt)
 }
