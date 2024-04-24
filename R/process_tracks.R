@@ -254,7 +254,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     }
 
     if(parallel){
-      fit_all <- bind_rows(fit_all)
+      fit_all <- bind_df_diffClass(fit_all)
     }
 
     if(note_discards){
@@ -264,7 +264,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         filter(!(id %in% unique(fit_all$id))) %>%
         mutate(reason = "track not successfully estimated during ssm or mpm fitting (aniMotum)")
 
-      remDat <- bind_rows(remDat, remDat2) %>% distinct()
+      remDat <- bind_df_diffClass(list(remDat, remDat2)) %>% distinct()
     }
     # Flag any tracks with gaps larger than the inputted tgap
     suppressMessages(
@@ -278,7 +278,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
               rowwise() %>%
               mutate(time_gap_ok = ifelse(any(date %within% sub.gap$tgap), "no", "yes"))
           }) %>%
-          bind_rows
+          bind_df_diffClass
 
         fit_all <- fit_all %>%
           left_join(fit_all_sub) %>%
@@ -452,8 +452,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         message(paste0("imported dataset has mean median timestep of: ", med_tstep_old, " ", units(med_tstep_old), " | current dataset has mean median timestep of: ", med_tstep_new, " ", units(med_tstep_new)))
 
         assign("fit_all_diag",
-               bind_rows(fit_all_old,
-                         fit_new_diag
+               bind_df_diffClass(list(fit_all_old,
+                                      fit_new_diag)
                ) %>%
                  distinct())
       }
@@ -466,8 +466,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         assign("fit_dive_old",
                get(fit_dive_old))
 
-        fit_all_dive <- bind_rows(fit_dive_old,
-                                  fit_new_dive) %>%
+        fit_all_dive <- bind_df_diffClass(list(fit_dive_old,
+                                               fit_new_dive)) %>%
           distinct()
       }
     }
@@ -478,8 +478,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         fit_ctd_old <- load(file= paste0(out_dir, "/", out_ctd, ".Rdata"))
         assign("fit_ctd_old",
                get(fit_ctd_old))
-        fit_all_ctd <- bind_rows(fit_ctd_old,
-                                 fit_new_ctd) %>%
+        fit_all_ctd <- bind_df_diffClass(list(fit_ctd_old,
+                                              fit_new_ctd)) %>%
           distinct()
       }
     }
@@ -489,8 +489,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         remDat_old <- fread(paste0(out_dir, "/tracks-removed-during-processing.csv"),
                             colClasses = rep("character", 2))
 
-        remDat <- bind_rows(remDat_old,
-                            remDat) %>%
+        remDat <- bind_df_diffClass(list(remDat_old,
+                                         remDat)) %>%
           distinct()
       }
     }
