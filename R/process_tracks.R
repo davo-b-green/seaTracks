@@ -384,7 +384,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     for(x in index_emptyDF){
       fit_all_diag[[x]] <- repDF
     }
-    fit_all_diag <- rbindlist(fit_all_diag)
+    fit_all_diag <- bind_df_diffClass(fit_all_diag)
   }
 
   if(nrow(fit_all_diag)==0){
@@ -402,7 +402,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       for(x in index_emptyDF){
         fit_all_dive[[x]] <- repDF
       }
-      fit_all_dive <- rbindlist(fit_all_dive)
+      fit_all_dive <- bind_df_diffClass(fit_all_dive)
     }
 
     if(!is.null(ctd_fn_ls)){
@@ -413,12 +413,12 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       for(x in index_emptyDF){
         fit_all_ctd[[x]] <- repDF
       }
-      fit_all_ctd <- rbindlist(fit_all_ctd)
+      fit_all_ctd <- bind_df_diffClass(fit_all_ctd)
     }
 
     if(!is.null(remDat_fn_ls)){
       remDat <- lapply(remDat_fn_ls, function(x){do.call(fread, args = list(input = x,colClasses = rep("character", 2)))})
-      remDat <- rbindlist(remDat)
+      remDat <- bind_df_diffClass(remDat)
     }
 
     if(append){
