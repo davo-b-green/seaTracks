@@ -22,7 +22,7 @@ process_tracks(
   tstep_units = "hours",
   vmax = 4,
   max_tgap = 4,
-  parallel = TRUE,
+  parallel = FALSE,
   chunk_prop = 0.1,
   return_output = FALSE
 )
