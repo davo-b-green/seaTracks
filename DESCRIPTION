@@ -20,6 +20,7 @@ Imports:
     httr,
     lubridate,
     magrittr,
+    nlme,
     readr,
     rlang,
     RODBC,
