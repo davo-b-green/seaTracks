@@ -214,7 +214,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
   # combining dive and surface resid data
   fit.dat <- bind_cols(dr.fit.dat, sr.dat)
   ## Bringing together general metrics and behavioural residuals
-  suppressMessages(
+  suppressMessages({
     dive.met <- left_join(dive.met, fit.dat) %>%
       distinct
 
@@ -222,7 +222,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
     ## Bring in dive dataset
     dive <- fread(in_dive, select = c("id", "date", "lon", "lat", "dive_dur", "max_dep", "surf_dur"))
     dive.met <- left_join(dive.met, dive) # Join all together again
-  )
+  })
   # If appending to previously processed dataset
   if(append & file_exists(paste0(out_dir,"/",out_dive,".csv"))){
 
