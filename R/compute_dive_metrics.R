@@ -217,7 +217,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
     # Reattach location information
     ## Bring in dive dataset
     dive <- fread(in_dive, select = c("id", "date", "lon", "lat"))
-    dive_met <- left_join(dive_met, dive) # Join all together again
+    dive.met <- left_join(dive.met, dive) # Join all together again
 
     # If appending to previously processed dataset
     if(append & file_exists(paste0("/",out_dir,"/",out_dive,".csv"))){
