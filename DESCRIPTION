@@ -25,10 +25,9 @@ Imports:
     rlang,
     RODBC,
     rSRDL,
+    sf,
     stats,
     stringr,
     tidyr,
     tidyselect,
     utils
-Suggests: 
-    sf (>= 1.0.15)

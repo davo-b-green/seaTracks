@@ -272,7 +272,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
           ) %>%
           # filter(away > 0 & notback > 0) %>%
           # dplyr::select(id, date, lon, lat)
-          dplyr::select(-c(north, home, notback, away))
+          dplyr::select(-c(home, notback, away))
 
 
         if(add_mpm){ # only adds move persistence model for regular timestep and not for individual dives and ctd profiles
@@ -350,7 +350,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         ) %>%
         # filter(away > 0 & notback > 0) %>%
         # dplyr::select(id, date, lon, lat)
-        dplyr::select(-c(north, home, notback, away))
+        dplyr::select(-c(home, notback, away))
 
       if(add_mpm){
         sub_mpm <- fit_dat %>%
