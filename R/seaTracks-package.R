@@ -66,6 +66,7 @@
 #' @importFrom sf st_join
 #' @importFrom sf st_read
 #' @importFrom sf st_within
+#' @importFrom sfheaders sf_to_df
 #' @importFrom stats fitted
 #' @importFrom stats median
 #' @importFrom stats na.exclude
