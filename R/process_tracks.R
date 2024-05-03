@@ -195,7 +195,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
     # bring in spatial dataset for buffer
     sf_use_s2(FALSE)
-    ne_buffer <- st_read("./land_buffer/land_buffer.shp") # read shapefile with high res polgons of world + 5km buffer around them
+    # ne_buffer <- st_read("./land_buffer/land_buffer.shp") # read shapefile with high res polgons of world + 5km buffer around them
+    ne_buffer <- readRDS(file = "inst/land_buffer.RDS")
 
     d3 <- data.frame(d1)
 
