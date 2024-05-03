@@ -194,12 +194,22 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     ## Step 2. Fit the SSM (and mpm if selected)
 
     # bring in spatial dataset for buffer
+
+    suppressMessages(
     sf_use_s2(FALSE)
+    )
     # ne_buffer <- st_read("./land_buffer/land_buffer.shp") # read shapefile with high res polgons of world + 5km buffer around them
     # ne_buffer <- readRDS(file = "inst/land_buffer.RDS")
     # data(ne_buffer, envir=environment())
-    ne_buffer <- system.file("extdata", "ne_buffer.rda", package = "seaTracks")
-    load(ne_buffer, envir = parent.env(environment()))
+
+    data_env <- new.env()
+    ne_buffer <- system.file("inst/extdata", "ne_buffer.rda", package = "seaTracks")
+
+    # Load the data into this new environment
+    load("ne_buffer", envir = data_env)
+
+    # Use the data from the environment
+    ne_buffer <- data_env$ne_buffer
 
 
 
