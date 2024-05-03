@@ -254,7 +254,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
               type %in% "land" ~ 1,
               TRUE ~ 0
             ))
-          sfp_sub = sf_to_df(sfp_sub) %>%
+          sfp_sub = sf_to_df(sfp_sub, fill = TRUE) %>%
             dplyr::select(-c(geometry, type))
           sfp_sub$home <- as.integer(sfp_sub$home)
           return(sfp_sub)
@@ -332,7 +332,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
             type %in% "land" ~ 1,
             TRUE ~ 0
           ))
-        sfp_sub = sf_to_df(sfp_sub) %>%
+        sfp_sub = sf_to_df(sfp_sub, fill = TRUE) %>%
           dplyr::select(-c(geometry, type))
         sfp_sub$home <- as.integer(sfp_sub$home)
         return(sfp_sub)
