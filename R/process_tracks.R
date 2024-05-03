@@ -203,7 +203,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     # data(ne_buffer, envir=environment())
 
     data_env <- new.env()
-    ne_buffer <- system.file("inst/extdata", "ne_buffer.rda", package = "seaTracks")
+    ne_buffer <- system.file("extdata", "ne_buffer.rda", package = "seaTracks")
 
     # Load the data into this new environment
     load(ne_buffer, envir = data_env)
