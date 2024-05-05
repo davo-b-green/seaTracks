@@ -211,6 +211,13 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     # Use the data from the environment
     ne_buffer <- data_env$ne_buffer
 
+    # Now turn this buffer polygon into a raster using fasterise
+    r <- raster(ne_buffer, res = 0.01)
+
+    r <- fasterize(ne_buffer, r, fun="sum")
+
+    r <- st_as_stars(r) # and coerce to a stars object for extraction
+
 
 
 
@@ -238,60 +245,6 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
         fit_dat <- grab(fits, "predicted", as_sf=FALSE)
 
-        # flag initial trip segment prior to leaving
-        fit_dat <- lapply(unique(fit_dat$id), function(z) {
-          sfp_sub = subset(fit_dat, id %in% z)
-          sfp_sub = st_as_sf(sfp_sub,
-                             coords = c("lon", "lat"),
-                             crs = 4326)
-          sfp_sub = st_join(
-            sfp_sub,
-            ne_buffer,
-            join = st_within
-          ) %>%
-            data.frame() %>%
-            mutate(home = case_when(
-              type %in% "land" ~ 1,
-              TRUE ~ 0
-            ))
-          sfp_sub = sf_to_df(sfp_sub, fill = TRUE) %>%
-            dplyr::select(-c(geometry, type))
-          sfp_sub$home <- as.integer(sfp_sub$home)
-          return(sfp_sub)
-        })
-
-        fit_dat <- bind_rows(fit_dat)
-
-        fit_dat <- fit_dat %>%
-          group_by(id) %>%
-          mutate(
-            away = frollapply(home,
-                              n = floor(24/tstep),
-                              align = "left",
-
-                              FUN = function(x){
-                                all(x < 1)
-                              }),
-            notback = frollapply(rev(home),
-                                 n = floor(24/tstep),
-                                 align = "left",
-
-                                 FUN = function(x){
-                                   all(x < 1)
-                                 }),
-            notback = rev(notback),
-            away = case_when(is.na(away) ~ notback,
-                             TRUE ~ away),
-            notback = case_when(is.na(notback) ~ away,
-                                TRUE ~ notback),
-            away = cumsum(away),
-            notback = rev(cumsum(rev(notback)))
-          ) %>%
-          # filter(away > 0 & notback > 0) %>%
-          # dplyr::select(id, date, lon, lat)
-          dplyr::select(-c(home, notback, away))
-
-
         if(add_mpm){ # only adds move persistence model for regular timestep and not for individual dives and ctd profiles
           sub_mpm <- fit_dat %>%
             right_join(diag_tstep) %>%
@@ -315,59 +268,6 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
                                 time.step = pred_times)
 
       fit_dat <- grab(fits, "predicted", as_sf=FALSE)
-
-      # flag initial trip segment prior to leaving
-      fit_dat <- lapply(unique(fit_dat$id), function(z) {
-        sfp_sub = subset(fit_dat, id %in% z)
-        sfp_sub = st_as_sf(sfp_sub,
-                           coords = c("lon", "lat"),
-                           crs = 4326)
-        sfp_sub = st_join(
-          sfp_sub,
-          ne_buffer,
-          join = st_within
-        ) %>%
-          data.frame() %>%
-          mutate(home = case_when(
-            type %in% "land" ~ 1,
-            TRUE ~ 0
-          ))
-        sfp_sub = sf_to_df(sfp_sub, fill = TRUE) %>%
-          dplyr::select(-c(geometry, type))
-        sfp_sub$home <- as.integer(sfp_sub$home)
-        return(sfp_sub)
-      })
-
-      fit_dat <- bind_rows(fit_dat)
-
-      fit_dat <- fit_dat %>%
-        group_by(id) %>%
-        mutate(
-          away = frollapply(home,
-                            n = floor(24/tstep),
-                            align = "left",
-
-                            FUN = function(x){
-                              all(x < 1)
-                            }),
-          notback = frollapply(rev(home),
-                               n = floor(24/tstep),
-                               align = "left",
-
-                               FUN = function(x){
-                                 all(x < 1)
-                               }),
-          notback = rev(notback),
-          away = case_when(is.na(away) ~ notback,
-                           TRUE ~ away),
-          notback = case_when(is.na(notback) ~ away,
-                              TRUE ~ notback),
-          away = cumsum(away),
-          notback = rev(cumsum(rev(notback)))
-        ) %>%
-        # filter(away > 0 & notback > 0) %>%
-        # dplyr::select(id, date, lon, lat)
-        dplyr::select(-c(home, notback, away))
 
       if(add_mpm){
         sub_mpm <- fit_dat %>%
@@ -397,6 +297,66 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
       remDat <- bind_df_diffClass(list(remDat, remDat2)) %>% distinct()
     }
+
+    # flag initial trip segment prior to leaving
+    fit_all <- lapply(unique(fit_all$id), function(z) {
+      sfp_sub = subset(fit_all, id %in% z)
+      sfp_sub = st_as_sf(sfp_sub,
+                         coords = c("lon", "lat"),
+                         crs = 4326)
+      # sfp_sub = st_join(
+      #   sfp_sub,
+      #   ne_buffer,
+      #   join = st_within
+      # ) %>%
+      #   data.frame() %>%
+      #   mutate(home = case_when(
+      #     type %in% "land" ~ 1,
+      #     TRUE ~ 0
+      #   ))
+
+      sfp_sub <- sfp_sub %>%
+        mutate(home = st_extract(r, .)$layer,
+               home = ifelse(is.na(home), 0, home))
+
+      sfp_sub = sf_to_df(sfp_sub, fill = TRUE) %>%
+        dplyr::select(-c(geometry))
+      sfp_sub$home <- as.integer(sfp_sub$home)
+      return(sfp_sub)
+    })
+
+    fit_all <- bind_rows(fit_all)
+
+    fit_all <- fit_all %>%
+      group_by(id) %>%
+      mutate(
+        away = frollapply(home,
+                          n = floor(24/tstep),
+                          align = "left",
+
+                          FUN = function(x){
+                            all(x < 1)
+                          }),
+        notback = frollapply(rev(home),
+                             n = floor(24/tstep),
+                             align = "left",
+
+                             FUN = function(x){
+                               all(x < 1)
+                             }),
+        notback = rev(notback),
+        away = case_when(is.na(away) ~ notback,
+                         TRUE ~ away),
+        notback = case_when(is.na(notback) ~ away,
+                            TRUE ~ notback),
+        away = cumsum(away),
+        notback = rev(cumsum(rev(notback)))
+      ) %>%
+      # filter(away > 0 & notback > 0) %>%
+      # dplyr::select(id, date, lon, lat)
+      dplyr::select(-c(home, notback, away))
+
+
     # Flag any tracks with gaps larger than the inputted tgap
     suppressMessages(
       if(nrow(tgaps) > 0){
