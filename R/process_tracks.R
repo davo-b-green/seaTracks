@@ -319,8 +319,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         mutate(home = st_extract(r, .)$layer,
                home = ifelse(is.na(home), 0, home))
 
-      sfp_sub = sf_to_df(sfp_sub, fill = TRUE) %>%
-        dplyr::select(-c(geometry))
+      sfp_sub = sf_to_df(sfp_sub, fill = TRUE) #%>%
+        # dplyr::select(-c(geometry))
       sfp_sub$home <- as.integer(sfp_sub$home)
       return(sfp_sub)
     })
