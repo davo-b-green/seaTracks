@@ -63,7 +63,7 @@ Contributions to seaTracks are welcome via pull requests and issues on the GitHu
 This package is available under the MIT License. Full license details can be found in the LICENSE file.
 
 ## Authors
-David Green - Initial work - ORCID
+David Green - Initial work - [ORCID](https://orcid.org/0000-0002-0346-3129)
 
 ## Acknowledgements
-This package builds upon the work and tools provided by the rSRDL and aniMotum packages. Please cite these packages appropriately when using seaTracks for your research.
+As mentioned above, this package relies heavily on tools provided by the [rSRDL](https://github.com/embiuw/rSRDL) and [aniMotum](https://github.com/ianjonsen/aniMotum) packages. Make sure you cite these packages appropriately when using seaTracks for your research. For more information on these packages, follow the links to their associated repositories.
