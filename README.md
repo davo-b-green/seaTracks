@@ -22,11 +22,11 @@ The package is structured to be used in a sequential workflow from data download
 
 ### Data Downloading:
 
-- **get_SMRU_files()**: Download SRDL files from the SMRU Data Portal.
+1. **get_SMRU_files()**: Download SRDL files from the SMRU Data Portal.
 Data Compilation:
 
-- **compile_diag()**: Compile diagnostic location datasets.
-- **compile_dive()**: Compile dive datasets.
+2. **compile_diag()**: Compile diagnostic location datasets.
+3. **compile_dive()**: Compile dive datasets.
 - **compile_ctd()**: Compile CTD (Conductivity, Temperature, Depth) datasets.
 - **compile_haul()**: Compile haulout datasets.
 - **compile_sum()**: Compile summary datasets.
@@ -51,8 +51,8 @@ compiled_diag <- compile_diag(acc_path = "./data/access_files", dir = "./data/co
 ## Dependencies
 seaTracks is a convenience pacakge that is entirely dependent on two much more powerful R packages:
 
-**rSRDL**: Access and QC raw diag, dive, CTD, haulout, and summary tables.
-**aniMotum**: Fit state-space models and move persistence models.
+- **rSRDL**: Access and QC raw diag, dive, CTD, haulout, and summary tables.
+- **aniMotum**: Fit state-space models and move persistence models.
 
 Please ensure these are installed and loaded as required.
 
