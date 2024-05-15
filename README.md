@@ -33,9 +33,9 @@ Data Compilation:
 
 ### Data Processing:
 
-- **process_tracks()**: Process the compiled datasets using aniMotum's state-space model.
+7. **process_tracks()**: Process the compiled datasets using aniMotum's state-space model.
   
-- **compute_dive_metrics()**: Calculate detailed foraging metrics from dive data. This is primarily intended for southern elephant seals.
+8. **compute_dive_metrics()**: Calculate detailed foraging metrics from dive data. This is primarily intended for southern elephant seals.
 
 ### Example
 Here is a basic example which demonstrates setting up a workflow:
