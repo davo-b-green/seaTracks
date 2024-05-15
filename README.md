@@ -6,7 +6,7 @@ seaTracks simplifies the process of accessing, compiling, and processing satelli
 - **Data Downloading**: Directly access data from the SMRU portal.
 - **File Management**: Automated file handling with default settings for storage paths.
 - **Data Compilation**: Efficiently compile diagnostic, dive, ctd, haulout, and summary datasets.
-- **Data Analysis**: Interface with packages like `aniMotum` for advanced analysis.
+- **Data Analysis**: Interface with the `aniMotum` package to fit state space and move persistence models on animal location data.
 
 ## Installation
 
