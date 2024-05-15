@@ -20,16 +20,16 @@ devtools::install_github("davo-b-green/seaTracks")
 ## Usage
 The package is structured to be used in a sequential workflow from data download to analysis:
 
-### Data Downloading:
+### Data Downloading and Compilation:
 
 1. **get_SMRU_files()**: Download SRDL files from the SMRU Data Portal.
 Data Compilation:
 
 2. **compile_diag()**: Compile diagnostic location datasets.
 3. **compile_dive()**: Compile dive datasets.
-- **compile_ctd()**: Compile CTD (Conductivity, Temperature, Depth) datasets.
-- **compile_haul()**: Compile haulout datasets.
-- **compile_sum()**: Compile summary datasets.
+4. **compile_ctd()**: Compile CTD (Conductivity, Temperature, Depth) datasets.
+5. **compile_haul()**: Compile haulout datasets.
+6. **compile_sum()**: Compile summary datasets.
 
 ### Data Processing:
 
