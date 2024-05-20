@@ -303,7 +303,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       sfp_sub = subset(fit_all, id %in% z)
       sfp_sub = st_as_sf(sfp_sub,
                          coords = c("lon", "lat"),
-                         crs = 4326)
+                         crs = 4326,
+                         remove = FALSE)
       # sfp_sub = st_join(
       #   sfp_sub,
       #   ne_buffer,
@@ -319,8 +320,10 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         mutate(home = st_extract(r, .)$layer,
                home = ifelse(is.na(home), 0, home))
 
-      sfp_sub = sf_to_df(sfp_sub, fill = TRUE) #%>%
-        # dplyr::select(-c(geometry))
+      sfp_sub <- data.frame(sfp_sub) %>%
+        select(-geometry)
+      # sfp_sub = sf_to_df(sfp_sub, fill = TRUE) #%>%
+      # dplyr::select(-c(geometry))
       sfp_sub$home <- as.integer(sfp_sub$home)
       return(sfp_sub)
     })
