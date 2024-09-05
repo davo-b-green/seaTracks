@@ -460,6 +460,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       return(paste0(out_dir, "/", out_ctd, "_temp_",ii,".csv"))
     })
     ctd_fn_ls <- ctd_fn_ls[file_exists(ctd_fn_ls)]
+  }else{
+    ctd_fn_ls <- NULL
   }
   if(note_discards){
     remDat_fn_ls <- sapply(1:length(ref_ls), function(ii){
@@ -566,15 +568,17 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       }
     }
 
-    if(!is.null(out_ctd) & nrow(fit_all_ctd) > 0){
-      if(file_exists(paste0(out_dir, "/", out_ctd, ".Rdata")) & append){
-        fit_new_ctd <- fit_all_ctd
-        fit_ctd_old <- load(file= paste0(out_dir, "/", out_ctd, ".Rdata"))
-        assign("fit_ctd_old",
-               get(fit_ctd_old))
-        fit_all_ctd <- bind_df_diffClass(list(fit_ctd_old,
-                                              fit_new_ctd)) %>%
-          distinct()
+    if(!is.null(out_ctd)){
+      if(nrow(fit_all_ctd) > 0){
+        if(file_exists(paste0(out_dir, "/", out_ctd, ".Rdata")) & append){
+          fit_new_ctd <- fit_all_ctd
+          fit_ctd_old <- load(file= paste0(out_dir, "/", out_ctd, ".Rdata"))
+          assign("fit_ctd_old",
+                 get(fit_ctd_old))
+          fit_all_ctd <- bind_df_diffClass(list(fit_ctd_old,
+                                                fit_new_ctd)) %>%
+            distinct()
+        }
       }
     }
 
@@ -625,12 +629,14 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
              file = paste0(out_dir, "/", out_dive, ".csv"))
     }
 
-    if(!is.null(out_ctd) & nrow(fit_all_ctd) > 0){
-      # print("yes - I am running this step (combining ctd)")
-      save(fit_all_ctd,
-           file = paste0(out_dir, "/", out_ctd, ".Rdata"))
-      fwrite(fit_all_ctd,
-             file = paste0(out_dir, "/", out_ctd, ".csv"))
+    if(!is.null(out_ctd)){
+      if(nrow(fit_all_ctd) > 0){
+        # print("yes - I am running this step (combining ctd)")
+        save(fit_all_ctd,
+             file = paste0(out_dir, "/", out_ctd, ".Rdata"))
+        fwrite(fit_all_ctd,
+               file = paste0(out_dir, "/", out_ctd, ".csv"))
+      }
     }
 
     if(note_discards){
