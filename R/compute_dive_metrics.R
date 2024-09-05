@@ -20,6 +20,7 @@
 #' @param dur_min threshold for minimum dive duration (seconds)
 #' @param dur_max threshold for maximum dive duration (seconds)
 #' @param surf_max threshold for maximum surface interval (seconds)
+#' @param surf_min threshold for minimum surface interval (seconds)
 #' @param append logical. Would you like this dive metrics dataset to be appended to a previously processed one?
 #' @param chunk_prop relative size of data chunks for splitting the dataset during processing. Value must be (0,1]
 #'
@@ -41,6 +42,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
                                  dur_min = 300,
                                  dur_max = 2800,
                                  surf_max = 300,
+                                 min_si = 30,
                                  append = TRUE, # would you like the dataset to be appended to a previously processed dataset, or processed from scratch?
                                  chunk_prop = 0.1 # chunk size relative to the full datablock
                                  ){
@@ -145,7 +147,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
     filter(!any(is.na(depth_str))) %>% # Remove any dives with missing depth values
     filter(dive_dur > 0) %>%
     filter(dive_dur < dur_max) %>%
-    filter(surf_dur > min.SI) %>%
+    filter(surf_dur > surf_min) %>%
     filter(max_dep < dep_max) %>%
     select(-c(depth_str, time_str, propn_str, time_ordered)) %>%  # remove now unnecessary columns
     ungroup()
@@ -172,11 +174,10 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
   sr.dat <- dive.met %>%
     select(id, dive_dur, surf_dur)
 
-  min.SI <- 30 # minimum surface interval
   adl <- sr.dat %>%
     filter(dive_dur > 0) %>%
     filter(dive_dur < dur_max) %>%
-    filter(surf_dur > min.SI) %>%
+    filter(surf_dur > surf_min) %>%
     group_by(id, dive_dur) %>%
     summarise(surf_dur = min(surf_dur, na.rm = TRUE)) %>%
     ungroup() %>%
@@ -194,7 +195,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
                                      newdata = data.frame(x = .$dive_dur,
                                                           y = .$surf_dur,
                                                           id = .$id)))) %>%
-    mutate(min.sfc.dur = ifelse(dive_dur == 0 | surf_dur <= min.SI,
+    mutate(min.sfc.dur = ifelse(dive_dur == 0 | surf_dur <= surf_min,
                                 NA,
                                 min.sfc.dur)
     ) %>%
