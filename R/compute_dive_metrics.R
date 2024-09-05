@@ -143,6 +143,10 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
     filter(max_v_speed < 4) %>% ## Vertical speed filter (4m.s-1) following Cox et al. as laid out in Allegue et al. 2023
     filter(max(table(time_str)) == 1) %>% # Remove any dives with duplicate time records
     filter(!any(is.na(depth_str))) %>% # Remove any dives with missing depth values
+    filter(dive_dur > 0) %>%
+    filter(dive_dur < dur_max) %>%
+    filter(surf_dur > min.SI) %>%
+    filter(max_dep < dep_max) %>%
     select(-c(depth_str, time_str, propn_str, time_ordered)) %>%  # remove now unnecessary columns
     ungroup()
 
@@ -171,6 +175,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
   min.SI <- 30 # minimum surface interval
   adl <- sr.dat %>%
     filter(dive_dur > 0) %>%
+    filter(dive_dur < dur_max) %>%
     filter(surf_dur > min.SI) %>%
     group_by(id, dive_dur) %>%
     summarise(surf_dur = min(surf_dur, na.rm = TRUE)) %>%
