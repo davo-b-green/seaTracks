@@ -42,7 +42,7 @@ compute_dive_metrics <- function(out_dir = "./processed_datasets/",
                                  dur_min = 300,
                                  dur_max = 2800,
                                  surf_max = 300,
-                                 min_si = 30,
+                                 surf_min = 30,
                                  append = TRUE, # would you like the dataset to be appended to a previously processed dataset, or processed from scratch?
                                  chunk_prop = 0.1 # chunk size relative to the full datablock
                                  ){
