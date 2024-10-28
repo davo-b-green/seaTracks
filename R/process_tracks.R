@@ -480,7 +480,13 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     for(x in index_emptyDF){
       fit_all_diag[[x]] <- repDF
     }
-    fit_all_diag <- bind_df_diffClass(fit_all_diag)
+
+    if(length(fit_all_diag)==1){
+      fit_all_diag = fit_all_diag[[1]]
+    }else{
+      fit_all_diag <- bind_df_diffClass(fit_all_diag)
+    }
+    # fit_all_diag <- bind_df_diffClass(fit_all_diag)
   }
 
   if(nrow(fit_all_diag)==0){
@@ -498,7 +504,14 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       for(x in index_emptyDF){
         fit_all_dive[[x]] <- repDF
       }
-      fit_all_dive <- bind_df_diffClass(fit_all_dive)
+
+      if(length(fit_all_dive)==1){
+        fit_all_dive = fit_all_dive[[1]]
+      }else{
+        fit_all_dive <- bind_df_diffClass(fit_all_dive)
+      }
+
+      # fit_all_dive <- bind_df_diffClass(fit_all_dive)
     }
 
     if(!is.null(ctd_fn_ls)){
@@ -509,7 +522,13 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       for(x in index_emptyDF){
         fit_all_ctd[[x]] <- repDF
       }
-      fit_all_ctd <- bind_df_diffClass(fit_all_ctd)
+
+      if(length(fit_all_ctd)==1){
+        fit_all_ctd = fit_all_ctd[[1]]
+      }else{
+        fit_all_ctd <- bind_df_diffClass(fit_all_ctd)
+      }
+      # fit_all_ctd <- bind_df_diffClass(fit_all_ctd)
     }
 
     if(!is.null(remDat_fn_ls)){
