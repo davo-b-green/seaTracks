@@ -366,15 +366,16 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       if(nrow(tgaps) > 0){
         fit_all_sub <- fit_all %>%
           filter(id %in% unique(tgaps$id)) %>%
-          group_by(id, .add = TRUE) %>%
-          group_split() %>%
+          group_by(id, .add = FALSE) %>%
+          group_split(.keep = TRUE) %>%
           lapply(., function(x){
             sub.gap = filter(tgaps, id %in% x$id[1])
             x = x %>%
               rowwise() %>%
               mutate(time_gap_ok = ifelse(any(date %within% sub.gap$tgap), "no", "yes"))
           }) %>%
-          bind_df_diffClass
+          bind_rows()
+          # bind_df_diffClass
 
         fit_all <- fit_all %>%
           left_join(fit_all_sub) %>%
