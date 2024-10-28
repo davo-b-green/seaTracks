@@ -365,7 +365,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       if(nrow(tgaps) > 0){
         fit_all_sub <- fit_all %>%
           filter(id %in% unique(tgaps$id)) %>%
-          group_split(id) %>%
+          group_by(id) %>%
+          group_split() %>%
           lapply(., function(x){
             sub.gap = filter(tgaps, id %in% x$id[1])
             x = x %>%
