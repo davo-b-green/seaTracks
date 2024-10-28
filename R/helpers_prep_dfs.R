@@ -115,7 +115,7 @@ prep_diag <- function(in_loc,
 
   if(exists("remDat1")){
     # remDat <- bind_rows(remDat1, remDat) %>% distinct()
-    remDat <- bind_df_diffClass(remDat1, remDat) %>% distinct()
+    remDat <- bind_df_diffClass(list(remDat1, remDat)) %>% distinct()
   }
 
   d1 <- rr1 %>%
