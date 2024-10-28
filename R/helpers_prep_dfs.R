@@ -114,7 +114,8 @@ prep_diag <- function(in_loc,
     mutate(reason = paste0("< ", min_d, " days data following deployment"))
 
   if(exists("remDat1")){
-    remDat <- bind_rows(remDat1, remDat) %>% distinct()
+    # remDat <- bind_rows(remDat1, remDat) %>% distinct()
+    remDat <- bind_df_diffClass(remDat1, remDat) %>% distinct()
   }
 
   d1 <- rr1 %>%

@@ -97,7 +97,8 @@ compile_diag <- function(acc_path  = "./access_files",
     olderLoc <- data.frame()
   }
 
-  dataLoc <- bind_df_diffClass(list(olderLoc, dataLoc)) # append newly compiled data onto older dataset
+  # dataLoc <- bind_df_diffClass(list(olderLoc, dataLoc)) # append newly compiled data onto older dataset
+  dataLoc <- bind_rows(list(olderLoc, dataLoc)) # append newly compiled data onto older dataset
 
   # Save dataset
   fwrite(x = dataLoc,
@@ -178,8 +179,8 @@ compile_dive <- function(acc_path  = "./access_files",
     olderDive <- data.frame()
   }
 
-  # dataDive <- bind_rows(olderDive, dataDive) # append newly compiled data onto older dataset
-  dataDive <- bind_df_diffClass(list(olderDive, dataDive))
+  dataDive <- bind_rows(olderDive, dataDive) # append newly compiled data onto older dataset
+  # dataDive <- bind_df_diffClass(list(olderDive, dataDive))
 
   # Save dataset
   fwrite(x = dataDive,
@@ -259,7 +260,8 @@ compile_ctd <- function(acc_path  = "./access_files",
     olderCTD <- data.frame()
   }
 
-  dataCTD <- bind_df_diffClass(list(olderCTD, dataCTD)) # append newly compiled data onto older dataset
+  # dataCTD <- bind_df_diffClass(list(olderCTD, dataCTD)) # append newly compiled data onto older dataset
+  dataCTD <- bind_rows(list(olderCTD, dataCTD)) # append newly compiled data onto older dataset
 
   # Save dataset
   fwrite(x = dataCTD,
@@ -338,7 +340,8 @@ compile_haul <- function(acc_path  = "./access_files",
     olderHaul <- data.frame()
   }
 
-  dataHaul <- bind_df_diffClass(list(olderHaul, dataHaul)) # append newly compiled data onto older dataset
+  # dataHaul <- bind_df_diffClass(list(olderHaul, dataHaul)) # append newly compiled data onto older dataset
+  dataHaul <- bind_rows(list(olderHaul, dataHaul)) # append newly compiled data onto older dataset
 
   # Save dataset
   fwrite(x = dataHaul,
@@ -416,7 +419,8 @@ compile_sum <- function(acc_path  = "./access_files",
     olderSum <- data.frame()
   }
 
-  dataSum <- bind_df_diffClass(list(olderSum, dataSum)) # append newly compiled data onto older dataset
+  # dataSum <- bind_df_diffClass(list(olderSum, dataSum)) # append newly compiled data onto older dataset
+  dataSum <- bind_rows(list(olderSum, dataSum)) # append newly compiled data onto older dataset
 
   # Save dataset
   fwrite(x = dataSum,
