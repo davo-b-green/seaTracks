@@ -533,7 +533,12 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
     if(!is.null(remDat_fn_ls)){
       remDat <- lapply(remDat_fn_ls, function(x){do.call(fread, args = list(input = x,colClasses = rep("character", 2)))})
-      remDat <- bind_df_diffClass(remDat)
+      if(length(remDat)==1){
+        remDat = remDat[[1]]
+      }else{
+        remDat <- bind_df_diffClass(remDat)
+      }
+      # remDat <- bind_df_diffClass(remDat)
     }
 
     if(append){
