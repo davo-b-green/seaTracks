@@ -295,8 +295,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         filter(!(id %in% unique(fit_all$id))) %>%
         mutate(reason = "track not successfully estimated during ssm or mpm fitting (aniMotum)")
 
-      # remDat <- bind_df_diffClass(list(remDat, remDat2)) %>% distinct()
-      remDat <- bind_rows(remDat, remDat2) %>% distinct()
+      remDat <- bind_df_diffClass(list(remDat, remDat2)) %>% distinct()
+      # remDat <- bind_rows(remDat, remDat2) %>% distinct()
     }
 
     # flag initial trip segment prior to leaving
@@ -374,8 +374,8 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
               rowwise() %>%
               mutate(time_gap_ok = ifelse(any(date %within% sub.gap$tgap), "no", "yes"))
           }) %>%
-          bind_rows()
-          # bind_df_diffClass
+          # bind_rows()
+          bind_df_diffClass
 
         fit_all <- fit_all %>%
           left_join(fit_all_sub) %>%
@@ -539,7 +539,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       if(length(remDat)==1){
         remDat = remDat[[1]]
       }else{
-        remDat <- bind_rows(remDat)
+        remDat <- bind_df_diffClass(remDat)
       }
       # remDat <- bind_df_diffClass(remDat)
     }
@@ -614,7 +614,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         remDat_old <- fread(paste0(out_dir, "/tracks-removed-during-processing.csv"),
                             colClasses = rep("character", 2))
 
-        remDat <- bind_rows(list(remDat_old,
+        remDat <- bind_df_diffClass(list(remDat_old,
                                          remDat)) %>%
           distinct()
       }
