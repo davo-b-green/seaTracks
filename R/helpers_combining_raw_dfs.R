@@ -379,15 +379,25 @@ bind_df_diffClass <- function(dt_list){
   }
 
   # Assuming data tables don't have the same number of columns
-  column_names <- unique(c(names(dt_list[[1]]), names(dt_list[[2]])))
+  # column_names <- unique(c(names(dt_list[[1]]), names(dt_list[[2]])))
+
+  column_names <- unique(unlist(sapply(dt_list, names)))
+
   all_col_df <- data.frame(matrix(ncol = length(column_names), nrow = 0))
   names(all_col_df) <- column_names
 
-  dt_list[[1]] <- rbindlist(list(all_col_df ,dt_list[[1]]),
-                            fill = TRUE)
+  dt_list <- lapply(dt_list, function(x){
+    all_col_subdf = rbindlist(list(all_col_df,
+                                   x),
+                              fill = TRUE)
+    return(all_col_subdf)
+  })
 
-  dt_list[[2]] <- rbindlist(list(all_col_df ,dt_list[[2]]),
-                            fill = TRUE)
+  # dt_list[[1]] <- rbindlist(list(all_col_df ,dt_list[[1]]),
+  #                           fill = TRUE)
+  #
+  # dt_list[[2]] <- rbindlist(list(all_col_df ,dt_list[[2]]),
+  #                           fill = TRUE)
 
   common_classes <- sapply(column_names, function(col) get_common_class(dt_list, col))
 
