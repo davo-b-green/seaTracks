@@ -581,7 +581,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         #          distinct())
         assign("fit_all_diag",
                rbindlist(list(fit_all_old,
-                              fit_new_diag)
+                              fit_new_diag), fill = TRUE
                ) %>%
                  distinct())
       }
@@ -598,7 +598,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         #                                        fit_new_dive)) %>%
         #   distinct()
         fit_all_dive <- rbindlist(list(fit_dive_old,
-                                       fit_new_dive)) %>%
+                                       fit_new_dive), fill = TRUE) %>%
           distinct()
       }
     }
@@ -614,7 +614,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
           #                                       fit_new_ctd)) %>%
           #   distinct()
           fit_all_ctd <- rbindlist(list(fit_ctd_old,
-                                        fit_new_ctd)) %>%
+                                        fit_new_ctd), fill = TRUE) %>%
             distinct()
         }
       }
@@ -629,7 +629,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         #                                  remDat)) %>%
         #   distinct()
         remDat <- rbindlist(list(remDat_old,
-                                 remDat)) %>%
+                                 remDat), fill = TRUE) %>%
           distinct()
       }
     }
