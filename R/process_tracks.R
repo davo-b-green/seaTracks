@@ -574,9 +574,14 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
 
         message(paste0("imported dataset has mean median timestep of: ", med_tstep_old, " ", units(med_tstep_old), " | current dataset has mean median timestep of: ", med_tstep_new, " ", units(med_tstep_new)))
 
+        # assign("fit_all_diag",
+        #        bind_df_diffClass(list(fit_all_old,
+        #                               fit_new_diag)
+        #        ) %>%
+        #          distinct())
         assign("fit_all_diag",
-               bind_df_diffClass(list(fit_all_old,
-                                      fit_new_diag)
+               rbindlist(list(fit_all_old,
+                              fit_new_diag)
                ) %>%
                  distinct())
       }
@@ -589,8 +594,11 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         assign("fit_dive_old",
                get(fit_dive_old))
 
-        fit_all_dive <- bind_df_diffClass(list(fit_dive_old,
-                                               fit_new_dive)) %>%
+        # fit_all_dive <- bind_df_diffClass(list(fit_dive_old,
+        #                                        fit_new_dive)) %>%
+        #   distinct()
+        fit_all_dive <- rbindlist(list(fit_dive_old,
+                                       fit_new_dive)) %>%
           distinct()
       }
     }
@@ -602,8 +610,11 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
           fit_ctd_old <- load(file= paste0(out_dir, "/", out_ctd, ".Rdata"))
           assign("fit_ctd_old",
                  get(fit_ctd_old))
-          fit_all_ctd <- bind_df_diffClass(list(fit_ctd_old,
-                                                fit_new_ctd)) %>%
+          # fit_all_ctd <- bind_df_diffClass(list(fit_ctd_old,
+          #                                       fit_new_ctd)) %>%
+          #   distinct()
+          fit_all_ctd <- rbindlist(list(fit_ctd_old,
+                                        fit_new_ctd)) %>%
             distinct()
         }
       }
@@ -614,8 +625,11 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         remDat_old <- fread(paste0(out_dir, "/tracks-removed-during-processing.csv"),
                             colClasses = rep("character", 2))
 
-        remDat <- bind_df_diffClass(list(remDat_old,
-                                         remDat)) %>%
+        # remDat <- bind_df_diffClass(list(remDat_old,
+        #                                  remDat)) %>%
+        #   distinct()
+        remDat <- rbindlist(list(remDat_old,
+                                 remDat)) %>%
           distinct()
       }
     }
