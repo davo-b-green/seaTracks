@@ -381,7 +381,7 @@ bind_df_diffClass <- function(dt_list){
   # Assuming data tables don't have the same number of columns
   # column_names <- unique(c(names(dt_list[[1]]), names(dt_list[[2]])))
 
-  column_names <- unique(as.character(sapply(dt_list, names)))
+  column_names <- unique(as.character(unlist(sapply(dt_list, names))))
 
   all_col_df <- data.frame(matrix(ncol = length(column_names), nrow = 0))
   names(all_col_df) <- column_names
