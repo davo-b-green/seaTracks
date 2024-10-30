@@ -551,10 +551,11 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
     if(!is.null(out_loc) & nrow(fit_all_diag) > 0){
       if(file_exists(paste0(out_dir, "/", out_loc, ".Rdata")) & append){
         fit_new_diag <- fit_all_diag
-        fit_all_old <- load(file= paste0(out_dir, "/", out_loc, ".Rdata"))
-        assign("fit_all_old",
-               get(fit_all_old)
-        )
+        # fit_all_old <- load(file= paste0(out_dir, "/", out_loc, ".Rdata"))
+        # assign("fit_all_old",
+        #        get(fit_all_old)
+        # )
+        fit_all_old <- fread(file= paste0(out_dir, "/", out_loc, ".csv"))
 
         med_tstep_old <- fit_all_old %>%
           group_by(id) %>%
@@ -584,15 +585,17 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
                               fit_new_diag), fill = TRUE
                ) %>%
                  distinct())
+        rm(fit_new_diag, fit_all_old)
       }
     }
 
     if(!is.null(out_dive) & nrow(fit_all_dive) > 0){
       if(file_exists(paste0(out_dir, "/", out_dive, ".Rdata")) & append){
         fit_new_dive <- fit_all_dive
-        fit_dive_old <- load(file= paste0(out_dir, "/", out_loc, ".Rdata"))
-        assign("fit_dive_old",
-               get(fit_dive_old))
+        # fit_dive_old <- load(file= paste0(out_dir, "/", out_dive, ".Rdata"))
+        # assign("fit_dive_old",
+        #        get(fit_dive_old))
+        fit_dive_old <- fread(file= paste0(out_dir, "/", out_dive, ".csv"))
 
         # fit_all_dive <- bind_df_diffClass(list(fit_dive_old,
         #                                        fit_new_dive)) %>%
@@ -600,6 +603,7 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
         fit_all_dive <- rbindlist(list(fit_dive_old,
                                        fit_new_dive), fill = TRUE) %>%
           distinct()
+        rm(fit_new_dive, fit_dive_old)
       }
     }
 
@@ -607,15 +611,17 @@ process_tracks <- function(in_loc = "./compiled_raw_datasets/loc_all_raw_pre-qc.
       if(nrow(fit_all_ctd) > 0){
         if(file_exists(paste0(out_dir, "/", out_ctd, ".Rdata")) & append){
           fit_new_ctd <- fit_all_ctd
-          fit_ctd_old <- load(file= paste0(out_dir, "/", out_ctd, ".Rdata"))
-          assign("fit_ctd_old",
-                 get(fit_ctd_old))
+          # fit_ctd_old <- load(file= paste0(out_dir, "/", out_ctd, ".Rdata"))
+          # assign("fit_ctd_old",
+          #        get(fit_ctd_old))
+          fit_ctd_old <- fread(file= paste0(out_dir, "/", out_ctd, ".csv"))
           # fit_all_ctd <- bind_df_diffClass(list(fit_ctd_old,
           #                                       fit_new_ctd)) %>%
           #   distinct()
           fit_all_ctd <- rbindlist(list(fit_ctd_old,
                                         fit_new_ctd), fill = TRUE) %>%
             distinct()
+          rm(fit_new_ctd, fit_ctd_old)
         }
       }
     }
